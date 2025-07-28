@@ -1,0 +1,32 @@
+<h1>Create Todo</h1>
+
+<form (ngSubmit)="onSubmit()" class="todo-form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      type="text"
+      [value]="title()"
+      (input)="title.set($any($event.target).value)"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      rows="4"
+      [value]="description()"
+      (input)="description.set($any($event.target).value)"
+    ></textarea>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="!isValid()"
+  >
+    Save
+  </button>
+</form>
