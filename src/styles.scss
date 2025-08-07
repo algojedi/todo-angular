@@ -17,3 +17,6 @@ body {
   color: var(--mat-sys-on-surface);
 }	
 
+mat-list-item {
+  cursor: pointer !important;
+}

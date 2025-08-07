@@ -12,6 +12,11 @@ export type GetTodosResponse = {
   success: boolean;
   count: number;
 };
+export type GetTodoResponse = {
+  data: Todo;
+  success: boolean;
+}
+
 export type CreateTodoData = {
   title: string;
   description?: string;

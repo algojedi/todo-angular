@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { api } from '../../core/constants/api-endpoints';
-import { GetTodosResponse, Todo } from './types';
+import { GetTodoResponse, GetTodosResponse, Todo } from './types';
 
 @Injectable({ providedIn: 'root' })
 export class TodoService {
@@ -9,6 +9,10 @@ export class TodoService {
 
   getTodos() {
     return this.http.get<GetTodosResponse>(api.todos.list);
+  }
+
+  getTodo(id: string | number) {
+    return this.http.get<GetTodoResponse>(api.todos.getById(id));
   }
 
   deleteTodo(id: number) {

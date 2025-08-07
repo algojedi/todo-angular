@@ -1,9 +1,9 @@
 <section>
   <mat-list>
     @for (todo of todos; track todo.id) {
-      <mat-list-item>
-        {{ todo.title }}
-      </mat-list-item>
+      <a mat-list-item [routerLink]="['/todo/edit', todo.id]" >
+          {{ todo.title }}
+        </a>
     }
   </mat-list>
 </section>

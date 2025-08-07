@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TodoService } from '../todo.service';
 import { Todo } from '../types';
-import { MatList, MatListItem } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-todo-list',
-  imports: [MatList, MatListItem ],
+  imports: [ RouterLink, MatListModule ],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.scss',
 })
