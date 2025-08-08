@@ -1,1 +1,38 @@
-<p>todo-edit works!</p>
+<h1>Create Todo</h1>
+
+<form
+  (ngSubmit)="onSubmit()"
+  class="todo-form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="title" id="title" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      rows="4"
+      id="description"
+      formControlName="description"
+    ></textarea>
+  </mat-form-field>
+
+  <div class="buttons">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="this.form.invalid"
+    >
+      Save
+    </button>
+
+    <button mat-raised-button color="secondary" [routerLink]="['/']">
+      Cancel
+    </button>
+  </div>
+</form>
