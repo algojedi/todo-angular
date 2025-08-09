@@ -1,30 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { Todo } from '../types';
+import { TodoFormComponent } from '../../../shared/todo-form/todo-form.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TodoService } from '../todo.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-todo-edit',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [TodoFormComponent],
   templateUrl: './todo-edit.component.html',
-  styleUrl: './todo-edit.component.scss',
-  template: `
-    <h1>Edit Todo #{{ id() }}</h1>
-    <!-- You can reuse form like in Create -->
-  `,
+  styleUrls: ['./todo-edit.component.scss']
 })
 export class TodoEditComponent {
   private route = inject(ActivatedRoute);
@@ -32,14 +17,17 @@ export class TodoEditComponent {
   private id = signal(this.route.snapshot.paramMap.get('id'));
   private previousTodo = signal<Todo | null>(null);
   private readonly todoService = inject(TodoService);
-  private fb = inject(FormBuilder);
 
-  form = this.fb.group({
-    title: ['', Validators.required],
-    description: ['', [Validators.required, Validators.minLength(5)]],
-  });
+  todo: Todo = {
+    id: '123',
+    title: 'Existing todo',
+    description: 'Some description',
+    completed: false,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.loadTodo();
   }
 
@@ -78,31 +66,9 @@ export class TodoEditComponent {
     });
   }
 
-  onSubmit() {
-    const { title, description } = this.form.value;
-    const todo: Todo = {
-      title: title!,
-      description: description!,
-      completed: false,
-      createdAt: this.previousTodo()!.createdAt, 
-      updatedAt: new Date(),
-      id: this.previousTodo()!.id 
-    };
-
-    this.todoService.updateTodo(+todo.id, todo).subscribe({
-      next: (response) => {
-        console.log('Todo updated successfully:', response);
-        this.router.navigate(['/todos']);
-      },
-      error: (error) => {
-        console.error('Error updating todo:', error);
-      },
-    });
-
-    console.log('Creating todo:', todo);
-    // save on session storage as key of todo
-    localStorage.setItem('test', 'I hope this works');
-    sessionStorage.setItem(todo.title, JSON.stringify(todo));
+  onSubmit(updatedValue: Partial<Todo>) {
+    const updatedTodo = { ...this.todo, ...updatedValue, updatedAt: new Date() };
+    console.log('Updating todo:', updatedTodo);
+    // Call API to update the todo
   }
-
 }
