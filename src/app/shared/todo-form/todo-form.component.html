@@ -6,10 +6,28 @@
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Description</mat-label>
-    <textarea matInput rows="4" id="description" formControlName="description"></textarea>
+    <textarea
+      matInput
+      rows="4"
+      id="description"
+      formControlName="description"
+    ></textarea>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-    Save
-  </button>
+  <div class="buttons-container">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Save
+    </button>
+    <button class="btn-cancel"
+      mat-flat-button
+      color="warn"
+    >
+      <a [routerLink]="['/']">Cancel</a>
+    </button>
+  </div>
 </form>
