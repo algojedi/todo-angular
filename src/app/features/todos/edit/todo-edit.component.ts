@@ -38,14 +38,13 @@ export class TodoEditComponent {
 
     this.todoService.getTodo(id).subscribe({
       next: (response) => {
-        const fetchedTodo = response.data;
-        this.todo.set(fetchedTodo);
+        this.todo.set(response.data);
 
         // Populate the form
-        this.form.patchValue({
-          title: fetchedTodo.title,
-          description: fetchedTodo.description,
-        });
+        // this.form.patchValue({
+        //   title: fetchedTodo.title,
+        //   description: fetchedTodo.description,
+        // });
 
         /*
         // Debug form changes
@@ -79,6 +78,14 @@ export class TodoEditComponent {
     };
 
     console.log('Updating todo:', updatedTodo);
-    // Call API to update
+    this.todoService.updateTodo(+updatedTodo.id, updatedTodo).subscribe({
+      next: () => {
+        console.log('Todo updated successfully');
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Error updating todo:', error);
+      }
+    });
   }
 }
