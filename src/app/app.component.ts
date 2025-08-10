@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbarModule ],
+  imports: [RouterOutlet, MatToolbarModule, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  callApiPost() : void {
+  callApiPost(): void {
     fetch('http://localhost:3000/api/todos', {
       method: 'POST',
       headers: {

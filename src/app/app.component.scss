@@ -1,7 +1,18 @@
-
 .main-container {
-	padding: 2rem;
+  padding: 2rem;
 }
 mat-list-item {
-  color: rgba(0, 0, 0, 0.87); /* Material recommended text color for white backgrounds */
+  color: rgba(
+    0,
+    0,
+    0,
+    0.87
+  ); /* Material recommended text color for white backgrounds */
+}
+
+mat-toolbar .app-logo {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
