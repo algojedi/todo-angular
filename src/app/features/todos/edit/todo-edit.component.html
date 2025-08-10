@@ -1,5 +1,10 @@
 <h1>Edit Todo</h1>
-<app-todo-form
-  [initialValue]="todo"
-  (formSubmit)="onSubmit($event)"
-></app-todo-form>
+
+@if (todo()) {
+  <app-todo-form
+    [initialValue]="todo() ?? {}"
+    (formSubmit)="onSubmit($event)"
+  ></app-todo-form>
+} @else {
+  <p>Loading...</p>
+}

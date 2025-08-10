@@ -14,40 +14,41 @@ import { TodoService } from '../todo.service';
 export class TodoEditComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private id = signal(this.route.snapshot.paramMap.get('id'));
-  private previousTodo = signal<Todo | null>(null);
   private readonly todoService = inject(TodoService);
 
-  todo: Todo = {
-    id: '123',
-    title: 'Existing todo',
-    description: 'Some description',
-    completed: false,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  };
+  // The id from the URL
+  private id = signal<string | null>(this.route.snapshot.paramMap.get('id'));
 
-   ngOnInit(): void {
+  // The todo stored as a signal
+  todo = signal<Todo | null>(null);
+
+  // Assuming TodoFormComponent exposes a `form` property
+  form = TodoFormComponent.prototype.form; // Replace with actual form creation
+
+  ngOnInit(): void {
     this.loadTodo();
   }
 
   private loadTodo(): void {
     const id = this.id();
     if (!id) {
-      // redirect to not-found
       this.router.navigate(['/not-found']);
       return;
     }
+
     this.todoService.getTodo(id).subscribe({
       next: (response) => {
-        console.log('Todo:', response);
-        this.previousTodo.set(response.data)
-        console.log({ todo : this.previousTodo() });
-        // populate the form with the todo data
+        const fetchedTodo = response.data;
+        this.todo.set(fetchedTodo);
+
+        // Populate the form
         this.form.patchValue({
-          title: this.previousTodo()!.title,
-          description: this.previousTodo()!.description,
+          title: fetchedTodo.title,
+          description: fetchedTodo.description,
         });
+
+        /*
+        // Debug form changes
         this.form.statusChanges.subscribe(() => {
           for (const controlName in this.form.controls) {
             const control = this.form.get(controlName);
@@ -58,17 +59,26 @@ export class TodoEditComponent {
             }
           }
         });
+      */
       },
       error: (error) => {
-        console.error('Error fetching todos:', error);
-        this.router.navigate(['/not-found']); // should be error page
+        console.error('Error fetching todo:', error);
+        this.router.navigate(['/not-found']);
       },
     });
   }
 
   onSubmit(updatedValue: Partial<Todo>) {
-    const updatedTodo = { ...this.todo, ...updatedValue, updatedAt: new Date() };
+    const current = this.todo();
+    if (!current) return;
+
+    const updatedTodo: Todo = {
+      ...current,
+      ...updatedValue,
+      updatedAt: new Date()
+    };
+
     console.log('Updating todo:', updatedTodo);
-    // Call API to update the todo
+    // Call API to update
   }
 }
