@@ -2,6 +2,10 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
 
+## sampled github repo using charts
+
+https://github.com/valor-software/ng2-charts/tree/master/apps/ng2-charts-demo/src/app
+
 ## Development server
 
 To start a local development server, run:
